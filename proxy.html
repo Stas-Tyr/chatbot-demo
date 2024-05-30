@@ -29,7 +29,7 @@
 <body>
     <!-- Div to host the iframe -->
     <div id="iframe-container">
-        <iframe id="proxy-iframe" src="https://zavodzame.si" frameborder="0"></iframe>
+        <iframe id="proxy-iframe" src="https://aninzavod.si" frameborder="0"></iframe>
     </div>
 
     <script>
@@ -38,21 +38,15 @@
 
             iframe.onload = function() {
                 try {
-                    // Check if the iframe content is accessible
-                    var iframeDoc = iframe.contentWindow.document;
-                    if (iframeDoc) {
-                        // Inject the chatbot script into the iframe
-                        var chatbotScript = iframeDoc.createElement('script');
-                        chatbotScript.src = "https://app.aminos.ai/js/chat_plugin.js";
-                        chatbotScript.setAttribute('data-bot-id', '19857');
+                    // Inject the chatbot script into the parent document
+                    var chatbotScript = document.createElement('script');
+                    chatbotScript.src = "https://app.aminos.ai/js/chat_plugin.js";
+                    chatbotScript.setAttribute('data-bot-id', '19857');
+                    
+                    document.body.appendChild(chatbotScript);
 
-                        iframeDoc.body.appendChild(chatbotScript);
-
-                        // Log to confirm script injection
-                        console.log("Chatbot script injected into iframe.");
-                    } else {
-                        console.error("Unable to access iframe document.");
-                    }
+                    // Log to confirm script injection
+                    console.log("Chatbot script injected.");
                 } catch (error) {
                     console.error("Error injecting script: ", error);
                 }
