@@ -36,14 +36,28 @@
         document.addEventListener("DOMContentLoaded", function() {
             var iframe = document.getElementById('proxy-iframe');
 
-            // Wait for the iframe to load
             iframe.onload = function() {
-                // Inject the chatbot script into the iframe
-                var chatbotScript = iframe.contentWindow.document.createElement('script');
-                chatbotScript.src = "https://app.simplebotinstall.com/js/chat_plugin.js";
-                chatbotScript.setAttribute('data-bot-id', '19857');
+                // Check if the iframe content is accessible
+                if (iframe.contentWindow && iframe.contentWindow.document) {
+                    var iframeDoc = iframe.contentWindow.document;
 
-                iframe.contentWindow.document.body.appendChild(chatbotScript);
+                    // Inject the chatbot script into the iframe
+                    var chatbotScript = iframeDoc.createElement('script');
+                    chatbotScript.src = "https://app.simplebotinstall.com/js/chat_plugin.js";
+                    chatbotScript.setAttribute('data-bot-id', '19857');
+
+                    iframeDoc.body.appendChild(chatbotScript);
+
+                    // Log to confirm script injection
+                    console.log("Chatbot script injected into iframe.");
+                } else {
+                    console.error("Unable to access iframe content.");
+                }
+            };
+
+            // Handle iframe load errors
+            iframe.onerror = function() {
+                console.error("Error loading iframe content.");
             };
         });
     </script>
